@@ -347,13 +347,23 @@ function create_post_from_feed_page($request, $access_token, $filter, &$wpfpg_sh
     // get the data from the feed
     $response = wp_remote_get($request);
 
+    $pluginlog = plugin_dir_path(__FILE__).'debug.log';
+
     // make sure it worked
     $http_code = wp_remote_retrieve_response_code($response);
+
+    // error_log("$request".PHP_EOL, 3, $pluginlog);
+
+    // $log_message = "Got $http_code".PHP_EOL;
+    // error_log($log_message, 3, $pluginlog);
 
     // if it worked ok
     if ($http_code == 200) {
         // retrieve the body of the response
         $body = wp_remote_retrieve_body($response);
+
+
+        // error_log("$body".PHP_EOL, 3, $pluginlog);
 
         // decode it as an array
         $decoded_feed = json_decode($body, true, 512, JSON_INVALID_UTF8_SUBSTITUTE);
